@@ -35,12 +35,6 @@ public class DriverFactory {
 
         getDriver().manage().window().maximize();
 
-        getDriver().manage().timeouts().implicitlyWait(
-                Duration.ofSeconds(
-                        Long.parseLong(ConfigReader.getProperty("implicit.wait"))
-                )
-        );
-
         getDriver().get(ConfigReader.getProperty("base.url"));
 
     }
