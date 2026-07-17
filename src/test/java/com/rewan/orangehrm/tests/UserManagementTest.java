@@ -5,6 +5,7 @@ import com.rewan.orangehrm.pages.AddUserPage;
 import com.rewan.orangehrm.pages.AdminPage;
 import com.rewan.orangehrm.pages.DashboardPage;
 import com.rewan.orangehrm.pages.LoginPage;
+import com.rewan.orangehrm.pages.UserManagementPage;
 import com.rewan.orangehrm.utils.ConfigReader;
 import com.rewan.orangehrm.utils.DataGenerator;
 import org.testng.Assert;
@@ -13,7 +14,7 @@ import org.testng.annotations.Test;
 public class UserManagementTest extends BaseTest {
 
     @Test
-    public void verifyAdminCanCreateUser() {
+    public void verifyAdminCanCreateUser() throws InterruptedException {
 
         // Step 1: Login with admin credentials
         LoginPage loginPage = new LoginPage();
@@ -59,16 +60,21 @@ public class UserManagementTest extends BaseTest {
 //
 //        // Step 9: Enter Confirm Password
 //        addUserPage.enterConfirmPassword("testPass$12");
+            String username = DataGenerator.generateUsername();
+            String password = DataGenerator.generatePassword();
 
-        String username = DataGenerator.generateUsername();
-        String password = DataGenerator.generatePassword();
-
-        addUserPage.createUser(
+        UserManagementPage userManagementPage = addUserPage.createUser(
                 "ESS",
                 "Orange Test",
                 "Enabled",
                 username,
                 password
+        );
+        userManagementPage.searchByUsername(username);
+
+        Assert.assertTrue(
+                userManagementPage.isUserDisplayed(username + username),
+                "Created user is not displayed in the table."
         );
     }
 }

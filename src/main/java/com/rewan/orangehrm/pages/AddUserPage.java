@@ -20,7 +20,7 @@ public class AddUserPage extends BasePage {
     );
     // Username
     private final By usernameInput = By.xpath(
-            "//label[normalize-space()='Username']/ancestor::div[contains(@class,'oxd-input-group')]//input"
+            "(//input[contains(@class,'oxd-input')])[2]"
     );
     // Password
     private final By passwordInput = By.xpath(
@@ -82,11 +82,11 @@ public class AddUserPage extends BasePage {
         type(confirmPasswordInput, confirmPassword);
     }
 
-    public void createUser(String role,
-                           String employeeName,
-                           String status,
-                           String username,
-                           String password) {
+    public UserManagementPage createUser(String role,
+                                         String employeeName,
+                                         String status,
+                                         String username,
+                                         String password) {
 
         selectUserRole(role);
         selectEmployeeName(employeeName);
@@ -95,8 +95,9 @@ public class AddUserPage extends BasePage {
         enterPassword(password);
         enterConfirmPassword(password);
         clickOnSaveButton();
-    }
 
+        return new UserManagementPage();
+    }
     public void clickOnSaveButton (){
         click(saveButton);
     }
