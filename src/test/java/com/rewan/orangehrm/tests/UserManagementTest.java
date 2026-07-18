@@ -14,12 +14,12 @@ import org.testng.annotations.Test;
 public class UserManagementTest extends BaseTest {
 
     @Test
-    public void verifyAdminCanCreateUser() throws InterruptedException {
+    public void verifyAdminCanCreateUser() {
 
         // Step 1: Login with admin credentials
-        LoginPage loginPage = new LoginPage();
+        LoginPage adminLoginPage = new LoginPage();
 
-        DashboardPage dashboardPage = loginPage.login(
+        DashboardPage dashboardPage = adminLoginPage.login(
                 ConfigReader.getProperty("admin.username"),
                 ConfigReader.getProperty("admin.password")
         );
@@ -31,11 +31,13 @@ public class UserManagementTest extends BaseTest {
 
         // Step 2: Click on Admin
         AdminPage adminPage = dashboardPage.openAdminPage();
+
         Assert.assertTrue(
                 adminPage.isAdminPageDisplayed(),
                 "Admin page is not displayed."
         );
-        // Step 3: Click on the add button
+
+        // Step 3: Click on Add button
         AddUserPage addUserPage = adminPage.clickOnAddButton();
 
         Assert.assertTrue(
@@ -43,26 +45,11 @@ public class UserManagementTest extends BaseTest {
                 "Add User page is not displayed."
         );
 
-//        // Step 4: Select User Role
-//        addUserPage.selectUserRole("ESS");
-//
-//        // Step 5: Select Employee Name
-//        addUserPage.selectEmployeeName("Orange Test");
-//
-//        // Step 6: Select Status
-//        addUserPage.selectStatus("Enabled");
-//
-//        // Step 7: Enter Username
-//        addUserPage.enterUsername("orange.test01");
-//
-//        // Step 8: Enter Password
-//        addUserPage.enterPassword("testPass$12");
-//
-//        // Step 9: Enter Confirm Password
-//        addUserPage.enterConfirmPassword("testPass$12");
-            String username = DataGenerator.generateUsername();
-            String password = DataGenerator.generatePassword();
+        // Test Data
+        String username = DataGenerator.generateUsername();
+        String password = DataGenerator.generatePassword();
 
+        // Step 4 & 5: Fill user details and click Save
         UserManagementPage userManagementPage = addUserPage.createUser(
                 "ESS",
                 "Orange Test",
@@ -70,11 +57,28 @@ public class UserManagementTest extends BaseTest {
                 username,
                 password
         );
+
+        // Step 6: Assert that account successfully created
         userManagementPage.searchByUsername(username);
 
         Assert.assertTrue(
                 userManagementPage.isUserDisplayed(username + username),
                 "Created user is not displayed in the table."
+        );
+
+        // Step 7 & 8: Click on Admin Profile then Logout
+        LoginPage loginPage = dashboardPage.logout();
+
+        // Step 9: Login with the newly created user
+        DashboardPage newDashboardPage = loginPage.login(
+                username + username,
+                password
+        );
+
+        // Step 10: Assert that account successfully opened
+        Assert.assertTrue(
+                newDashboardPage.isDashboardDisplayed(),
+                "New user failed to login."
         );
     }
 }
