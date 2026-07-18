@@ -16,9 +16,8 @@ public class UserManagementPage extends BasePage {
         return By.xpath("//*[normalize-space()='" + username + "']");
     }
 
-    public void searchByUsername(String username) throws InterruptedException {
+    public void searchByUsername(String username){
         type(usernameSearchInput, username);
-        Thread.sleep(3000);
         click(searchButton);
     }
     public boolean isUserDisplayed(String username) {
