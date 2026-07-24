@@ -9,6 +9,7 @@ public class LoginPage extends BasePage {
     private final By userNameField = By.name("username");
     private final By passwordField = By.name("password");
     private final By loginButton = By.cssSelector("button[type='submit']");
+    private final By loginHeader = By.xpath("//h5[normalize-space()='Login']");
 
     // Private Actions
     private void enterUsername(String username) {
@@ -31,6 +32,9 @@ public class LoginPage extends BasePage {
         clickLogin();
 
         return new DashboardPage();
+    }
+    public boolean isLoginPageDisplayed() {
+        return isDisplayed(loginHeader);
     }
 
 }
