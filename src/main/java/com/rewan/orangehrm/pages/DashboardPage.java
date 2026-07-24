@@ -11,6 +11,16 @@ public class DashboardPage extends BasePage {
 
     private final By adminMenu = By.xpath("//span[text()='Admin']");
 
+    private final By timeMenu =
+            By.xpath("//span[normalize-space()='Time']");
+
+    private final By timesheetsDropdown =
+            By.xpath("//span[contains(@class,'oxd-topbar-body-nav-tab-item') and contains(.,'Timesheets')]");
+
+    private final By myTimesheets =
+            By.xpath("//a[normalize-space()='My Timesheets']");
+
+
     private final HeaderComponent header = new HeaderComponent();
 
     public boolean isDashboardDisplayed() {
@@ -26,4 +36,15 @@ public class DashboardPage extends BasePage {
         return header.logout();
     }
 
+    public MyTimesheetPage openTimePage() {
+        click(timeMenu);
+        click(timesheetsDropdown);
+        click(myTimesheets);
+        return new MyTimesheetPage();
+    }
+
+    public TimePage openEmployeeTimesheetPage() {
+        click(timeMenu);
+        return new TimePage();
+    }
 }

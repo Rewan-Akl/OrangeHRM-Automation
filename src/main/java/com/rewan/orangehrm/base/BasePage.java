@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import com.rewan.orangehrm.components.HeaderComponent;
+import com.rewan.orangehrm.pages.LoginPage;
 
 import java.time.Duration;
 
@@ -46,5 +48,10 @@ public class BasePage {
 
     protected boolean isDisplayed(By locator) {
         return find(locator).isDisplayed();
+    }
+
+    public LoginPage logout() {
+        HeaderComponent header = new HeaderComponent();
+        return header.logout();
     }
 }
