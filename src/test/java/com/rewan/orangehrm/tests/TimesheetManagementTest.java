@@ -19,7 +19,7 @@ public class TimesheetManagementTest extends BaseTest {
                 ConfigReader.getProperty("employee.password")
         );
 
-        // Step 2: Click on Time
+        // Step 2: Navigate to My Timesheet page
         MyTimesheetPage myTimesheetPage = dashboardPage.openTimePage();
 
         Assert.assertTrue(
@@ -27,10 +27,10 @@ public class TimesheetManagementTest extends BaseTest {
                 "My Timesheet page is not displayed."
         );
 
-        // Step 3: Open timesheet (Edit)
+        // Step 3: Open the timesheet for editing
         EditTimesheetPage editTimesheetPage = myTimesheetPage.clickOnEditButton();
 
-        // Delete existing row
+        // Remove any existing timesheet row
         editTimesheetPage.deleteExistingRow();
 
         // Step 4: Select Project
@@ -38,29 +38,33 @@ public class TimesheetManagementTest extends BaseTest {
                 "Apache",
                 "Apache Software Foundation - ASF - Phase 1"
         );
-        // Step 5.2: Select Activity
+
+        // Step 5: Select Activity
         editTimesheetPage.selectActivity("Bug Fixes");
 
-        // Step 5.3: Log hours for three days
+        // Step 6: Enter working hours for three days
         editTimesheetPage.logHours("08:00");
 
-        // Step 6: Click on Save
+        // Step 7: Save the timesheet
         editTimesheetPage.clickOnSaveButton();
 
-        // Step 7: Assert that total is 24:00
+        // Step 8: Verify total logged hours
         Assert.assertEquals(
                 editTimesheetPage.getTotalHours(),
                 "24:00",
-                "Total hours are incorrect.");
+                "Total hours are incorrect."
+        );
 
+        // Wait until the Submit button becomes visible
         editTimesheetPage.waitForSubmitButton();
 
-        // Step 8: Click on Submit
+        // Step 9: Submit the timesheet
         editTimesheetPage.clickOnSubmitButton();
 
-        // Step 9 & 10: Logout
+        // Step 10: Logout from employee account
         loginPage = editTimesheetPage.logout();
 
+        // Verify that the Login page is displayed
         Assert.assertTrue(
                 loginPage.isLoginPageDisplayed(),
                 "Login page is not displayed after logout."
@@ -72,34 +76,38 @@ public class TimesheetManagementTest extends BaseTest {
                 ConfigReader.getProperty("admin.password")
         );
 
-        // Step 12: Click on Time
+        // Step 12: Navigate to Employee Timesheet page
         TimePage timePage = dashboardPage.openEmployeeTimesheetPage();
 
-        // Step 13: Search employee name
+        // Step 13: Search for the employee
         timePage.searchEmployee(
                 "Orange",
                 "Orange Test"
         );
 
-        // Step 13: Click on View
+        // Step 14: Open the employee's timesheet
         EmployeeTimesheetPage employeeTimesheetPage =
                 timePage.clickOnViewButton();
 
-        // Step 14: Click on Approve
+        // Step 15: Approve the timesheet
         employeeTimesheetPage.clickOnApproveButton();
 
+        // Step 16: Logout from admin account
         loginPage = employeeTimesheetPage.logout();
 
+        // Step 17: Login again with employee credentials
         dashboardPage = loginPage.login(
                 ConfigReader.getProperty("employee.username"),
                 ConfigReader.getProperty("employee.password")
         );
+
+        // Step 18: Navigate to My Timesheet page
         myTimesheetPage = dashboardPage.openTimePage();
 
+        // Step 19: Verify that the timesheet status is Approved
         Assert.assertTrue(
                 myTimesheetPage.getStatus().contains("Approved"),
                 "Timesheet was not approved."
         );
-
     }
 }

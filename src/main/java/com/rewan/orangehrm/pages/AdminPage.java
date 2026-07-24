@@ -5,8 +5,11 @@ import org.openqa.selenium.By;
 
 public class AdminPage extends BasePage {
 
-    private final By adminHeader = By.xpath("//h6[text()='Admin']");
-    private final By addButton = By.xpath("//button[normalize-space()='Add']");
+    private final By adminHeader =
+            By.xpath("//h6[text()='Admin']");
+
+    private final By addButton =
+            By.xpath("//button[normalize-space()='Add']");
 
     public boolean isAdminPageDisplayed() {
         return isDisplayed(adminHeader);
@@ -15,5 +18,9 @@ public class AdminPage extends BasePage {
     public AddUserPage clickOnAddButton() {
         click(addButton);
         return new AddUserPage();
+    }
+
+    public UserManagementPage openUserManagementPage() {
+        return new UserManagementPage();
     }
 }

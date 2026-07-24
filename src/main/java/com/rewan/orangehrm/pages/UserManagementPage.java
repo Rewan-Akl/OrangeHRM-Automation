@@ -16,11 +16,23 @@ public class UserManagementPage extends BasePage {
         return By.xpath("//*[normalize-space()='" + username + "']");
     }
 
-    public void searchByUsername(String username){
+    private By editButton(String username) {
+        return By.xpath(
+                "//div[text()='" + username + "']/ancestor::div[@role='row']//button[.//i[contains(@class,'bi-pencil-fill')]]"
+        );
+    }
+
+    public void searchByUsername(String username) {
         type(usernameSearchInput, username);
         click(searchButton);
     }
+
     public boolean isUserDisplayed(String username) {
         return isDisplayed(usernameInTable(username));
+    }
+
+    public EditUserPage clickOnEditButton(String username) {
+        click(editButton(username));
+        return new EditUserPage();
     }
 }
